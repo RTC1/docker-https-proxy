@@ -16,6 +16,8 @@ fi
 if [ ! -f ${OUTPUT_DIR}/key.pem ]; then
     # Generate the certificate
     openssl genrsa -out ${OUTPUT_DIR}/key.pem 2048
-    openssl req -new -sha256 -key ${OUTPUT_DIR}/key.pem -nodes -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=${PROXY_DOMAIN}" -out ${OUTPUT_DIR}/csr.pem
+    openssl req -new -sha256 -key ${OUTPUT_DIR}/key.pem -nodes -subj
+    "/C=US/ST=Denial/L=Springfield/O=Dis/CN=${PROXY_DOMAIN}" -config <(cat /etc/ssl/openssl.cnf \
+                                                                     <(printf "\n[SAN]\nsubjectAltName=DNS:${PROXY_DOMAIN}")) \ -out ${OUTPUT_DIR}/csr.pem
     openssl x509 -req -in ${OUTPUT_DIR}/csr.pem -CA ${CA_DIR}/rootCA.crt -CAkey ${CA_DIR}/rootCA.key -CAcreateserial -out ${OUTPUT_DIR}/cert.pem
 fi
