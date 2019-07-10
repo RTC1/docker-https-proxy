@@ -11,7 +11,7 @@ mkdir -p $OUTPUT_DIR $CA_DIR
 if [ ! -f ${CA_DIR}/rootCA.crt ]; then
 	openssl genrsa -out ${CA_DIR}/rootCA.key 2048
 	openssl req -x509 -new -nodes -key ${CA_DIR}/rootCA.key -sha256 -days 1024 -subj \
-	'"/C=GB/L=London/O=SWB/CN=swbusinessconsultants.com" -out ${CA_DIR}/rootCA.crt
+	"/C=GB/L=London/O=SWB/CN=swbusinessconsultants.com" -out ${CA_DIR}/rootCA.crt
 fi
 
 if [ ! -f ${OUTPUT_DIR}/key.pem ]; then
