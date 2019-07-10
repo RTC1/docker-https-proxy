@@ -23,5 +23,8 @@ challengePassword		= A challenge password
 challengePassword_min		= 4
 challengePassword_max		= 20
 
-[san_env]
-subjectAltName=DNS:{{getenv "PROXY_DOMAIN"}}
+[ san_env ]
+subjectAltName          = @alternate_names
+
+[ alternate_names ]
+DNS.1        = DNS:{{getenv "PROXY_DOMAIN"}}
