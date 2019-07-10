@@ -11,7 +11,7 @@ mkdir -p $OUTPUT_DIR $CA_DIR
 if [ ! -f ${CA_DIR}/rootCA.crt ]; then
 	openssl genrsa -out ${CA_DIR}/rootCA.key 2048
 	openssl req -x509 -new -nodes -key ${CA_DIR}/rootCA.key -sha256 -days 1024 -subj \
-	"/C=GB/L=London/O=SWB/CN=swbusinessconsultants.com" -out ${CA_DIR}/rootCA.crt
+	"/C=GB/L=London/O=SWB/CN=devteam" -out ${CA_DIR}/rootCA.crt
 fi
 
 if [ ! -f ${OUTPUT_DIR}/key.pem ]; then
@@ -19,7 +19,7 @@ if [ ! -f ${OUTPUT_DIR}/key.pem ]; then
     openssl genrsa -out ${OUTPUT_DIR}/key.pem 2048
 
     openssl req -new -sha256 -key ${OUTPUT_DIR}/key.pem -nodes -subj \
-    "/C=GB/L=London/O=SWB/CN=${PROXY_DOMAIN}" \
+    "/C=GB/L=London/O=devteam/CN=${PROXY_DOMAIN}" \
     -out ${OUTPUT_DIR}/csr.pem
 
     openssl x509 -req -in ${OUTPUT_DIR}/csr.pem -CA ${CA_DIR}/rootCA.crt -CAkey ${CA_DIR}/rootCA.key -CAcreateserial \
