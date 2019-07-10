@@ -1,0 +1,6 @@
+[template]
+src="openssl.conf.tmpl"
+dest="/tmp/openssl.conf"
+keys=[
+  "/",
+]
