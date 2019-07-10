@@ -1,6 +1,7 @@
-# Outrigger HTTPS Proxy
+# HTTPS Proxy based on Outrigger
 
-> Handles HTTPS proxying with automatic self-signed serts for SSL termination.
+> Handles HTTPS proxying with automatic self-signed serts for SSL termination, and adds AltName to ensure validity in
+ Chrome.
 
 [![GitHub tag](https://img.shields.io/github/tag/phase2/docker-https-proxy.svg)](https://github.com/phase2/docker-https-proxy) [![Docker Stars](https://img.shields.io/docker/stars/outrigger/https-proxy.svg)](https://hub.docker.com/r/outrigger/https-proxy) [![Docker Pulls](https://img.shields.io/docker/pulls/outrigger/https-proxy.svg)](https://hub.docker.com/r/outrigger/https-proxy) [![](https://images.microbadger.com/badges/image/outrigger/https-proxy:dev.svg)](https://microbadger.com/images/outrigger/https-proxy:dev 'Get your own image badge on microbadger.com')
 
@@ -31,7 +32,7 @@ docker run --rm -it \
   # The UPSTREAM service must be running.
   # https://proxy.projectname.vm
   proxy:
-    build: outrigger/https-proxy:1.0
+    build: robcook91/https-proxy:latest
     container_name: projectname_http_proxy
     depends_on:
       - api
@@ -43,6 +44,8 @@ docker run --rm -it \
       UPSTREAM_PORT: 3773
       PROXY_DOMAIN: proxy.projectname.vm
     network_mode: bridge
+    volumes:
+          - ./ca:/etc/nginx/ca
 ```
 
 ## Features
@@ -59,7 +62,12 @@ In the future steps might be taken to facilitate more of a trust mechanism.
 
 The SSL certificate is generated using a own-ROOT-ca that is available in the
 directory /etc/nginx/ca. If made available to other containers or the local
-system this will serve as the basis to trust the application certificate.
+system this will serve as the basis to trust the application certificate
+
+### Trusting CA
+
+If the ca folder is mounted, as shown in the docker-compose example, and doesn't contain root CA keys they will be 
+generated. On MacOS you can add the rootCA.crt to your System keychain to trust the CA.
 
 #### Using Existing Certificate
 
